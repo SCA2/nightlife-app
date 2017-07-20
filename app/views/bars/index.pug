@@ -1,0 +1,19 @@
+extends ../layout/layout.pug
+
+block content
+  .main.container
+    .row
+      .col-md-8.col-md-offset-2
+        .panel.panel-default
+          .panel-heading
+            h2.text-center Bars - courtesy of Yelp!
+          if bars
+            ul.list-group
+              each bar in bars
+                -name = bar.name;
+                -bar_id = bar._id
+                li.list-group-item
+                  a(href='/api/bars/' + bar_id)=name
+                  if true
+                    form(action=href='/api/bars/' + bar_id method='post')
+                      button(type="submit") Add Me
