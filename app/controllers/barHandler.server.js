@@ -29,8 +29,17 @@ function barHandler() {
       })
   };
 
+  this.togglePatron = (req, res) => {
+    Bar
+      .findById(req.params.bar_id, (err, bar) => {
+        if(err) throw err;
+        bar.togglePatron(req.user, patronCount => {
+          res.json(patronCount);
+        });
+      });
+  };
+
   this.addPatron = (req, res) => {
-    // if(!req.user) { res.end(); return; }
     Bar
       .findById(req.params.bar_id, (err, bar) => {
         if(err) throw err;
@@ -50,7 +59,7 @@ function barHandler() {
           if(err) throw err;
           res.json(bar.getPatronCount());
         });
-      })
+      });
   };
 }
 

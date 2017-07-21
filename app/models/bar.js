@@ -7,21 +7,33 @@ var Bar = new Schema({
   name: String,
   id: String,
   image: String,
-  patrons: [{type: Schema.Types.ObjectId, ref: 'User'}]
+  patrons: [Schema.Types.ObjectId]
 });
+
+Bar.methods.togglePatron = function(patron, cb) {
+  if(this.patrons.indexOf(patron._id) == -1) {
+    this.addPatron(patron, cb);
+  } else {
+    this.removePatron(patron, cb);
+  }
+}
 
 Bar.methods.addPatron = function(patron, cb) {
   const model = this;
-  model.patrons.push(patron._id);
+  model.patrons.addToSet(patron._id);
   model.save(function(err) {
     if(err) throw err;
     cb(model.patrons.length);
   });
 }
 
-Bar.methods.removePatron = function(patron) {
-  let index = this.patrons.indexOf(patron._id);
-  this.patrons.splice(index, 1);
+Bar.methods.removePatron = function(patron, cb) {
+  const model = this;
+  model.patrons.pull({ _id: patron._id});
+  model.save(function(err) {
+    if(err) throw err;
+    cb(model.patrons.length);
+  });
 }
 
 Bar.methods.getPatronCount = function() {

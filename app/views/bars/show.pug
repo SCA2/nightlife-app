@@ -6,4 +6,9 @@ block content
       .poll-container
         .col-md-5.col-md-offset-1
           .page-header
-            h2=bar.name
+            -name = bar.name;
+            -bar_id = bar._id
+              h2=bar.name
+              if true
+                form(action=href='/api/bars/' + bar_id + '/patrons' method='post')
+                  button.bar(type="submit")=`${bar.patrons.length} Going`

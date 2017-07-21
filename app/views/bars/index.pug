@@ -15,5 +15,5 @@ block content
                 li.list-group-item
                   a(href='/api/bars/' + bar_id)=name
                   if true
-                    form(action=href='/api/bars/' + bar_id method='post')
-                      button(type="submit") Add Me
+                    form(action=href='/api/bars/' + bar_id + '/patrons' method='post')
+                      button.bar(type="submit" id=bar_id)=`${bar.patrons.length} Going`

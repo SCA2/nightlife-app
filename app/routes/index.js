@@ -53,11 +53,10 @@ module.exports = function (app, passport) {
 
   app.route('/api/bars/:bar_id/patrons')
     .get(barHandler.getPatronCount)
-    .post(isLoggedIn, barHandler.addPatron)
-    .delete(isLoggedIn, barHandler.removePatron);
+    .post(isLoggedIn, barHandler.togglePatron)
 
-  // app.route('/api/:id')
-  //   .get(isLoggedIn, function (req, res) {
-  //     res.json(req.user.github);
-  //   });
+  app.route('/api/:id')
+    .get(isLoggedIn, function (req, res) {
+      res.json(req.user.github);
+    });
 };
