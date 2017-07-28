@@ -52,8 +52,8 @@ Bar.methods.getPatronCount = function() {
 
 Bar.statics.searchBars = function(location, cb) {
   const yelp = require('yelp-fusion');
-  const clientId = process.env.YAHOO_KEY;
-  const clientSecret = process.env.YAHOO_SECRET;
+  const clientId = process.env.YELP_KEY;
+  const clientSecret = process.env.YELP_SECRET;
   const model = this;
 
   const searchRequest = {
