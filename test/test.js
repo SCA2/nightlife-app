@@ -32,9 +32,7 @@ describe('Bar', () => {
         id: '1234',
         displayName: 'Joe Tester',
         username: 'username',
-        publicRepos: 10
-      },
-      bars: []
+      }
     });
 
     patron_2 = new User({
@@ -42,9 +40,7 @@ describe('Bar', () => {
         id: '2345',
         displayName: 'Eric Tester',
         username: 'username2',
-        publicRepos: 11
-      },
-      bars: []
+      }
     });
   });
 
@@ -125,20 +121,16 @@ describe('API', () => {
       github: {
         id: '1234',
         displayName: 'Joe Tester',
-        username: 'username',
-        publicRepos: 10
-      },
-      bars: []
+        username: 'username'
+      }
     });
 
     patron_2 = new User({
       github: {
         id: '2345',
         displayName: 'Eric Tester',
-        username: 'username2',
-        publicRepos: 10
-      },
-      bars: []
+        username: 'username2'
+      }
     });
 
     bar.addPatron(patron, () => {});
@@ -179,17 +171,6 @@ describe('API', () => {
     it('GETs all of the bars', (done) => {
       chai.request(server)
       .get('/api/bars')
-      .end((err, res) => {
-        expect(res.text).to.include('Firefly');
-        done();
-      });
-    });
-  });
-
-  describe('/api/bars/:id', () => {
-    it('GETs :bar_id', (done) => {
-      chai.request(server)
-      .get('/api/bars/' + bar._id)
       .end((err, res) => {
         expect(res.text).to.include('Firefly');
         done();

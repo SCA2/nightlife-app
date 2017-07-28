@@ -5,7 +5,7 @@ var BarHandler = require(path + '/app/controllers/barHandler.server.js');
 
 module.exports = function (app, passport) {
 
-	function isLoggedIn (req, res, next) {
+  function isLoggedIn (req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     } else {
@@ -17,18 +17,18 @@ module.exports = function (app, passport) {
 
   app.route('/')
     .get(function (req, res) {
-      res.redirect('/api/bars');
+      res.redirect('/search');
     });
 
   app.route('/login')
     .get(function (req, res) {
-      res.redirect('/auth/github');
+      res.redirect('/auth/twitter');
     });
 
   app.route('/logout')
     .get(function (req, res) {
       req.logout();
-      res.redirect('/api/bars');
+      res.redirect('/search');
     });
 
   app.route('/profile')
@@ -36,27 +36,21 @@ module.exports = function (app, passport) {
       res.render(path + '/app/views/users/profile.pug');
     });
 
-  app.route('/auth/github/callback')
-    .get(passport.authenticate('github', {
+  app.route('/search')
+    .get(barHandler.searchBars)
+    .post(barHandler.searchBars);
+
+  app.route('/auth/twitter/callback')
+    .get(passport.authenticate('twitter', {
       successRedirect: '/',
       failureRedirect: '/login'
     }));
 
-  app.route('/auth/github')
-    .get(passport.authenticate('github'));
-
-  app.route('/api/bars')
-    .get(barHandler.getBars);
-
-  app.route('/api/bars/:bar_id')
-    .get(barHandler.getBar);
+  app.route('/auth/twitter')
+    .get(passport.authenticate('twitter'));
 
   app.route('/api/bars/:bar_id/patrons')
     .get(barHandler.getPatronCount)
     .post(isLoggedIn, barHandler.togglePatron)
 
-  app.route('/api/:id')
-    .get(isLoggedIn, function (req, res) {
-      res.json(req.user.github);
-    });
 };

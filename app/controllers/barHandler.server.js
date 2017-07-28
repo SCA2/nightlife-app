@@ -4,20 +4,13 @@ var User = require('../models/user');
 var Bar = require('../models/bar');
 
 function barHandler() {
-  this.getBars = function (req, res) {
-    Bar
-      .find({})
-      .exec(function (err, bars) {
-        if (err) { throw err; }
-        let user_id = req.user ? req.user.github.id : 'guest';
-        res.render('../views/bars/index.pug', { bars: bars, user_id: user_id });
-      });
-  };
-
-  this.getBar = function (req, res) {
-    Bar.findById(req.params.bar_id, (err, bar) => {
-      if(err) throw err;
-      res.render('../views/bars/show.pug', { bar: bar });
+  this.searchBars = (req, res) => {
+    let location = '94612';
+    if(req.body.location) { location = req.body.location }
+    else if(req.session.lastLocation) { location = req.session.lastLocation };
+    req.session.lastLocation = location;
+    Bar.searchBars(location, (bars) => {
+      res.render('../views/bars/index.pug', { bars: bars });
     });
   };
 

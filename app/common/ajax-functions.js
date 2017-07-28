@@ -10,12 +10,14 @@ var ajaxFunctions = {
     document.addEventListener('DOMContentLoaded', fn, false);
   },
 
-  ajaxRequest: function ajaxRequest (method, url, callback) {
+  ajaxRequest: function ajaxRequest (method, url, successCB, failureCB) {
     var xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function () {
       if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-        callback(xmlhttp.response);
+        successCB(xmlhttp.response);
+      } else if(xmlhttp.readyState === 4 && xmlhttp.status === 0) {
+        failureCB();
       }
     };
 
